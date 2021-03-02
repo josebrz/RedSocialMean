@@ -1,5 +1,5 @@
 const config = {
-    dbUrl: process.env.DB_URL || 'mongodb://user:user1234@ds255107.mlab.com:55107/telegrom',
+    dbUrl: process.env.DB_URL || 'mongodb+srv://db_Asus:online23@redsocialmean.ckcgl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
     port: process.env.PORT || 3000,
     host: process.env.HOST || 'http://localhost',
     publicRoute: process.env.PUBLIC_ROUTE || '/app',
