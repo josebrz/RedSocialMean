@@ -1,14 +1,10 @@
 const express = require('express');
 const app = express();
-const server = require('http').Server(app);
-
 const config = require('./config');
-
+const routes = require('./network/routes');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const socket = require('./socket');
 const db = require('./db');
-const router = require('./network/routes');
 
 db(config.dbUrl);
 
@@ -17,14 +13,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-socket.connect(server);
+app.set('port', config.port);
+app.use(routes);
 
-router(app);
-
-app.use(config.publicRoute, express.static('public'));
-
-server.listen(config.port, function () {
-    console.log('La aplicación está escuchando en '+ config.host +':' + config.port);
+app.listen(app.get('port'), () => {
+    console.log(`Server on port ${app.get('port')}`);   // eslint-disable-line no-console
 });
+
 
 

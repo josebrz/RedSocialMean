@@ -1,7 +1,13 @@
-const express = require('express');
+const {Router} = require('express');
+const router = Router();
+const config = require('../config');
 
-const routes = function (server) {
-    server.use('');
-}
+//User Module
+const userRouter = require('../components/user/user.router');
 
-module.exports = routes;
+const v = 'v1';
+
+//user routes
+router.use(`/${v}/user`, userRouter);
+
+module.exports = router;
