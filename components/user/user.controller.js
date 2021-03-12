@@ -2,10 +2,10 @@ const Boom = require('@hapi/boom');
 const service = require('./user.service')
 const encryptPassword = require('../../libs/crypto')
 
-async function get(req, res, next){
+function get(req, res, next){
     try{
         const {id} = req.params
-        const result = await service.getUser(id)
+        const result = service.getUser(id)
         return res.status(201).json(result);
     } catch (e) {
         return next(Boom.badImplementation(e, {
@@ -20,8 +20,13 @@ async function create(req, res, next){
         let data = req.body
         data.rawPassword = data.password;
         data.password = await encryptPassword(data.password);
-        const result = service.createUser(data)
-        return res.status(201).json(result);
+        service.createUser(data)
+            .then((result)=>{
+                return res.status(201).json(result);
+            })
+            .catch(e =>{
+                return res.status(500).send(e.errors)
+            })
     } catch (e){
         return next(Boom.badImplementation(e, {
             code: 2,

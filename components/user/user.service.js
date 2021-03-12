@@ -1,4 +1,5 @@
 const User = require('./user.model')
+const Boom = require('@hapi/boom');
 
 function getUser(userId) {
     return User.findById(userId);
@@ -6,20 +7,22 @@ function getUser(userId) {
 
 function createUser(data) {
     const newUser = new User(data);
-    newUser.save()
-        .then(result =>{
+    return newUser.save()
+        .then(() =>{
             return {
                 name: newUser.name,
                 surname: newUser.surname,
                 nick: newUser.nick,
                 email: newUser.email,
-                password: newUser.password
+                signUpDate: newUser.signUpDate
             }
         })
         .catch(err =>{
             throw err
         })
 }
+
+
 module.exports = {
     getUser,
     createUser
